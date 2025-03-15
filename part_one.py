@@ -17,7 +17,7 @@ def driver():
 
     for sequence in all_sequences:
         category = categorize_strand(sequence)
-        categorized_sequences[category].append(sequence)
+        categorized_sequences[category] = sequence
 
     print("-------------------------")
     print("Encoding sequences for storage...")
@@ -26,6 +26,7 @@ def driver():
     encoded_sequences = []
 
     for sequence in all_sequences:
+        #fix add value to dict
         encoded_strand = encode_strand(sequence)
         encoded_sequences.append(encoded_strand)
 
@@ -60,6 +61,8 @@ def categorize_strand(strand):
     return 0 if is_t_present else 1
 
 def encode_strand(strand):
+    #test
+    #print(f"strand = {strand}")
     if not strand:
         return ""
 
@@ -69,12 +72,21 @@ def encode_strand(strand):
     for index in range(1, len(strand)):
         if strand[index - 1] == strand[index]:
             count += 1
+            if index == len(strand)-1:  #fix: add a if condition to append the final entry when reaching the end of strand
+                new_entry = strand[index - 1] + str(count)
+                encoding.append(new_entry)
         else:
-            new_entry = strand[index - 1] + count
+            #fix str
+            new_entry = strand[index - 1] + str(count)
             encoding.append(new_entry)
             count = 1
-
+    #test
+    #print(f"output = {"".join(encoding)}")
     return "".join(encoding)
+
+# DNA = "GGGGGAAAGGCCCCTTTAAAACCCCTTTTTAAAACCCCCGGGAAAATTTTAAA"
+# DNA_ENCODED = "G5A3G2C4T3A4C4T5A4C5G3A4T4A3"
+# G5A3G2C4T3A4C4T5A4C5G3A4T4
 
 def decode_strand(encoding):
     if not encoding:
