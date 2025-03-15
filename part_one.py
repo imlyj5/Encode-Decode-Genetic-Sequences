@@ -11,17 +11,12 @@ def driver():
     ]
 
     categorized_sequences = {}
-    categorized_sequences["undetermined"] = [] # strands that can't be determined
-    categorized_sequences["dna"] = [] # dna strands
-    categorized_sequences["rna"] = [] # rna strands
+    categorized_sequences[-1] = [] # strands that can't be determined
+    categorized_sequences[0] = [] # dna strands
+    categorized_sequences[1] = [] # rna strands
 
     for sequence in all_sequences:
-        if categorize_strand(sequence) == 0:
-            category = "dna"
-        elif categorize_strand(sequence) == 1:
-            category = "rna"
-        else:
-            category = "undetermined"
+        category = categorize_strand(sequence)
         categorized_sequences[category].append(sequence)
 
     print("-------------------------")
